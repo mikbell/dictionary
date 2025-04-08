@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dictionary</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold">Dictionary</h1>
+            <p class="text-muted">Find definitions, synonyms and more.</p>
+        </div>
+
+        <form action="/words" method="get" class="d-flex justify-content-center mb-4">
+            <input type="text" name="search" class="form-control w-50 me-2" placeholder="Search a word" />
+            <button type="submit" class="btn btn-primary">Cerca</button>
+        </form>
+
+        <% if (locals.word) { %>
+        <div class="card shadow">
+            <div class="card-body">
+                <h3 class="card-title text-capitalize"><%= word.word %></h3>
+                <ul class="list-group list-group-flush mt-3">
+                    <li class="list-group-item">
+                        <strong>Definition:</strong>
+                        <%= word.results[0]?.definition || "No definition found" %>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Part of Speech:</strong>
+                        <%= word.results[0]?.partOfSpeech || "No part of speech found" %>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Synonyms:</strong>
+                        <%= word.results[0]?.synonyms ? word.results[0].synonyms.join(", ") : "No synonyms found" %>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Similar to:</strong>
+                        <%= word.results[0]?.similarTo ? word.results[0].similarTo.join(", ") : "No similar words found" %>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Derivation:</strong>
+                        <%= word.results[0]?.derivation || "No derivation found" %>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <% } else if (locals.error) { %>
+        <div class="alert alert-danger text-center mt-4" role="alert">
+            <%= error %>
+        </div>
+        <% } %>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
